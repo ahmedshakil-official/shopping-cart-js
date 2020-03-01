@@ -16,7 +16,7 @@
       <div class="container">
          <div class="cart">
             <div class="col-md-12 col-lg-10 mx-auto">
-               <div class="cart-item">
+               <div id="phone" class="cart-item">
                   <div class="row">
                      <div class="col-md-7 center-item">
                         <img src="images/product-1.png" alt="">
@@ -25,17 +25,17 @@
 
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button id="phone-minus-btn" class="btn btn-default "><i class="fas fa-minus"></i></button>
+                           <input id="first-item" type="text" class="form-control text-center" value="1">
+                           <button id="phone-add-btn" class="btn btn-default "><i class="fas fa-plus"></i></button>
                         </div>
-                        <h5>$1219</h5>
-                        <img src="images/remove.png" alt="" class="remove-item">
+                        <h5>$ <span id="phone-price">1219</span></h5>
+                        <img id="phone-remove" src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
                </div>
 
-               <div class="cart-item">
+               <div id="case" class="cart-item">
                   <div class="row">
                      <div class="col-md-7 center-item mx-auto">
                         <img src="images/product-2.png" alt="">
@@ -43,13 +43,13 @@
                      </div>
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button id="case-minus-btn" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="second-item" type="text" class="form-control text-center" value="1">
+                           <button id="case-add-btn" class="btn btn-default "><i class="fas fa-plus"></i></button>
 
                         </div>
-                        <h5>$59</h5>
-                        <img src="images/remove.png" alt="" class="remove-item">
+                        <h5>$ <span id="case-price">59</span></h5>
+                        <img id="case-remove" src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
                </div>
@@ -64,9 +64,9 @@
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5>$1,278</h5>
+                        <h5>$ <span id="sub-total">1,278</span></h5>
                         <h5>$0</h5>
-                        <h5>$1,278</h5>
+                        <h5>$ <span id="total">1,278</span></h5>
                      </div>
                   </div>
                </div>
@@ -77,6 +77,84 @@
          </div>
       </div>
    </section>
+   <script>
+      function calculatePrice(quantity_id,unit_price_id,unit_price){
+         const quantity=getInputNumber(quantity_id);
+         document.getElementById(unit_price_id).innerText=unit_price*quantity;
+
+      }
+      function totalPrice(phone_price_id,case_price_id,sub_total_price_id,total_price_id){
+         const phone_price=parseFloat(document.getElementById(phone_price_id).innerText);
+         const case_price=parseFloat(document.getElementById(case_price_id).innerText);
+         document.getElementById(sub_total_price_id).innerText= phone_price+case_price;
+         document.getElementById(total_price_id).innerText= phone_price+case_price;
+      }
+
+      function getInputNumber(id){
+         const quantity=document.getElementById(id).value;
+         return parseInt(quantity);
+      }
+      function inputValue(id){
+         
+      }
+
+      const phoneAddBtn=document.getElementById("phone-add-btn");
+      phoneAddBtn.addEventListener("click",function(){
+         
+         const add=getInputNumber("first-item");
+         document.getElementById("first-item").value=add+1;
+         calculatePrice("first-item","phone-price",1219);
+         totalPrice("phone-price","case-price","sub-total","total")
+      })
+
+      const phoneMinusBtn=document.getElementById("phone-minus-btn");
+      phoneMinusBtn.addEventListener("click",function(){
+         const remove=getInputNumber("first-item");
+         if(remove>1){
+            document.getElementById("first-item").value=remove-1;
+            calculatePrice("first-item","phone-price",1219)
+            totalPrice("phone-price","case-price","sub-total","total")
+         }
+      })
+
+      
+
+      const caseAddBtn=document.getElementById("case-add-btn");
+      caseAddBtn.addEventListener("click",function(){
+         
+         const add=getInputNumber("second-item");
+         document.getElementById("second-item").value=add+1;
+         calculatePrice("second-item","case-price",59);
+         totalPrice("phone-price","case-price","sub-total","total");
+      })
+
+      const caseMinusBtn=document.getElementById("case-minus-btn");
+      caseMinusBtn.addEventListener("click",function(){
+         const remove=getInputNumber("second-item");
+         if(remove>1){
+            document.getElementById("second-item").value=remove-1;
+            calculatePrice("second-item","case-price",59);
+            totalPrice("phone-price","case-price","sub-total","total");
+         }
+      })
+
+      const phone=document.getElementById("phone-remove");
+        phone.addEventListener("click",function(){
+            const phone=document.getElementById("phone");
+            phone.style.display="none";
+            document.getElementById("sub-total").innerText= parseFloat(document.getElementById("second-item").value)*59;
+            document.getElementById("total").innerText= parseFloat(document.getElementById("second-item").value)*59;
+        })
+
+        const case_remove =document.getElementById("case-remove");
+        case_remove.addEventListener("click",function(){
+            const case_remove=document.getElementById("case");
+            case_remove.style.display="none";
+            document.getElementById("sub-total").innerText= parseFloat(document.getElementById("first-item").value)*1219;
+            document.getElementById("total").innerText= parseFloat(document.getElementById("first-item").value)*1219;
+        })
+      
+   </script>
 </body>
 
 </html>
